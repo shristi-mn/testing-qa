@@ -33,7 +33,7 @@ const ReplayFileReader = require('./common/ReplayFileReader'),
 				try {
 					fileReader = ReplayFileReader.for(`./logs/${filename}`);
 				} catch (e) {
-					console.log(`Unable to load file [ ./logs/${filename} ]`, e);
+					console.log(`Unable to yada yada load file [ ./logs/${filename} ]`, e);
 				}
 
 				break;
