@@ -12,17 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Use Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14' # You can specify the Node.js version you need
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build
-      run: npm run build
     - name: Endor Labs Scan PR to Default Branch
       if: github.event_name == 'pull_request'
       uses: endorlabs/github-action@v1.1.4
@@ -37,4 +26,15 @@ jobs:
         enable_github_action_token: false
         pr: true
         enable_pr_comments: true
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14' # You can specify the Node.js version you need
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+    
         
