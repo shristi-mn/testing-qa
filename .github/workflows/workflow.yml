@@ -12,18 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Endor Labs Scan PR to Default Branch
-      if: github.event_name == 'pull_request'
-      uses: endorlabs/github-action@v1.1.4
-      with:
-        namespace: 'example' # Update with your Endor Labs namespace
-        scan_summary_output_type: 'table'
-        scan_dependencies: true
-        scan_secrets: true
-        pr: true
-        enable_pr_comments: true
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
@@ -34,4 +23,18 @@ jobs:
 
     - name: Build
       run: npm run build
-    
+    - name: Endor Labs Scan PR to Default Branch
+      if: github.event_name == 'pull_request'
+      uses: endorlabs/github-action@v1.1.4
+      with:
+        namespace: 'shristimn' # Update with your Endor Labs namespace
+        scan_summary_output_type: 'table'
+        scan_dependencies: true
+        scan_secrets: true
+        api: https://api.staging.endorlabs.com
+        api_key: ${{ secrets.ENDORLABS_API_KEY }}
+        api_secret: ${{ secrets.ENDORLABS_API_SECRET }}
+        enable_github_action_token: false
+        pr: true
+        enable_pr_comments: true
+        
