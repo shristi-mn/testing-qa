@@ -1,0 +1,36 @@
+name: Build JavaScript Project
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14' # You can specify the Node.js version you need
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+    - name: Endor Labs Scan PR to Default Branch
+      if: github.event_name == 'pull_request'
+      uses: endorlabs/github-action@v1.1.4
+      with:
+        namespace: 'example' # Update with your Endor Labs namespace
+        scan_summary_output_type: 'table'
+        scan_dependencies: true
+        scan_secrets: true
+        pr: true
+        enable_pr_comments: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
