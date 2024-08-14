@@ -12,7 +12,6 @@ jobs:
       security-events: write # Used to upload Sarif artifact to GitHub
       contents: read # Used to check out a private repository
       actions: read # Required for private repositories to upload Sarif files. GitHub Advanced Security licenses are required.
-      id-token: write # Used for keyless authentication with Endor Labs
       pull-requests: write # Required to automatically comment on PRs for new policy violations
     runs-on: ubuntu-latest
 
@@ -25,17 +24,14 @@ jobs:
         distribution: 'microsoft'
         java-version: '17'
     - uses: actions/checkout@v3
-    - name: Endor Labs Scan PR to Default Branch
-      if: github.event_name == 'pull_request'
+    - name: Scan with Endor Labs
       uses: endorlabs/github-action@v1.1.4
       with:
-        namespace: 'shristimn' # Update with your Endor Labs namespace
-        scan_summary_output_type: 'table'
-        scan_dependencies: true
-        scan_secrets: true
-        api: https://api.staging.endorlabs.com
-        enable_pr_comments: true
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        namespace: 'sanity-debug'
+        api: 'https://app.staging.endorlabs.com'
+        api_key: ${{ secrets.ENDOR_API_CREDENTIALS_KEY }}
+        api_secret: ${{ secrets.ENDOR_API_CREDENTIALS_SECRET }}
+        enable_github_action_token: false
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
